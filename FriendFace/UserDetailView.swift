@@ -11,28 +11,38 @@ struct UserDetailView: View {
 	let user: User
 	
 	var body: some View {
-		VStack(alignment: .leading) {
-			Text(user.name)
-				.font(.largeTitle)
-				.padding(.bottom)
-			
-			Text("Registered: \(user.formattedRegisteredDate)")
-				.padding(.bottom)
-			
-			Text(user.about)
-				.padding(.bottom)
-			
-			Text("Friends")
-				.font(.headline)
-			
-			List(user.friends) { friend in
-				Text(friend.name)
+		List{
+			Section(header: Text("Basic Information")){
+				Text("Name: \(user.name)")
+				Text("Age: \(user.age)")
+				Text("Company: \(user.company)")
+				Text("Email: \(user.email)")
+				Text("Address: \(user.address)")
+			}
+			Section(header: Text("About")){
+				Text(user.about)
+			}
+			Section(header: Text("Registered")){
+				Text(user.registered)
+			}
+			Section(header: Text("Tags")){
+				ForEach(user.tags, id: \.self) { tag in
+					Text(tag)
+						.padding(5)
+						.background(Color.gray.opacity(0.2))
+						.cornerRadius(5)
+				}
+			}
+			Section(header: Text("Friends")){
+				ForEach(user.friends) { friend in
+					Text(friend.name)
+				}
 			}
 		}
-		.padding()
 		.navigationTitle(user.name)
 	}
 }
+
 #Preview {
 	let friend1 = Friend(id: "01", name: "Friend1")
 	let friend2 = Friend(id: "02", name: "Friend2")
