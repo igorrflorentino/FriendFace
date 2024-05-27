@@ -23,7 +23,7 @@ struct UserDetailView: View {
 				Text(user.about)
 			}
 			Section(header: Text("Registered")){
-				Text(user.registered)
+				Text(user.formattedRegisteredDate)
 			}
 			Section(header: Text("Tags")){
 				ForEach(user.tags, id: \.self) { tag in
