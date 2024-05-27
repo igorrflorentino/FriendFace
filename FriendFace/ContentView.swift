@@ -8,15 +8,46 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
+	@StateObject private var viewModel = UserViewModel()
+	
+	var body: some View {
+		NavigationStack {
+			Group {
+				if viewModel.isLoading {
+					ProgressView("Loading...")
+						.progressViewStyle(CircularProgressViewStyle())
+				} else if let errorMessage = viewModel.errorMessage {
+					VStack {
+						Text(errorMessage)
+							.foregroundColor(.red)
+							.multilineTextAlignment(.center)
+							.padding()
+						
+						Button("Retry") {
+							viewModel.fetchData()
+						}
+						.padding()
+					}
+				} else {
+					List(viewModel.users) { user in
+						NavigationLink(destination: UserDetailView(user: user)) {
+							HStack {
+								Text(user.name)
+									.font(.headline)
+								Spacer()
+								Text(user.isActive ? "Active" : "Inactive")
+									.foregroundColor(user.isActive ? .green : .red)
+							}
+						}
+					}
+				}
+			}
+			.navigationTitle("FriendFace")
+			.onAppear {
+				viewModel.fetchData()
+			}
+		}
+	}
 }
 
 #Preview {
