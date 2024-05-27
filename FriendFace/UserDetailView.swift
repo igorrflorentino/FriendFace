@@ -34,5 +34,8 @@ struct UserDetailView: View {
 	}
 }
 #Preview {
-    UserDetailView()
+	let friend1 = Friend(id: "01", name: "Friend1")
+	let friend2 = Friend(id: "02", name: "Friend2")
+	let user = User(id: "01", isActive: true, name: "User1", age: 99, company: "ACME", email: "nick@email.com", address: "00 Dumb's Road" , about: "What about", registered: "0001-01-01T01:01:01-01:01", tags: ["tag1","tag2"], friends: [friend1, friend2])
+    return UserDetailView(user: user)
 }
