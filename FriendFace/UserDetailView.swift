@@ -13,11 +13,11 @@ struct UserDetailView: View {
 	var body: some View {
 		List{
 			Section(header: Text("Basic Information")){
-				Text("Name: \(user.name)")
-				Text("Age: \(user.age)")
-				Text("Company: \(user.company)")
-				Text("Email: \(user.email)")
-				Text("Address: \(user.address)")
+				Text("\(user.name)")
+				Text("\(user.age) years old")
+				Text("\(user.company) company")
+				Text("\(user.email)")
+				Text("\(user.address)")
 			}
 			Section(header: Text("About")){
 				Text(user.about)
@@ -25,17 +25,22 @@ struct UserDetailView: View {
 			Section(header: Text("Registered")){
 				Text(user.formattedRegisteredDate)
 			}
-			Section(header: Text("Tags")){
-				ForEach(user.tags, id: \.self) { tag in
+			
+			Section(header: Text("Tags")) {
+				//na chamada da nossa view FlowLayout nao precisamos especificar o retorno da closure passada como paramatro da construçao pois o framework SwiftUI infere automaticamente o valor
+				FlowLayout(items: user.tags) { tag in
 					Text(tag)
-						.padding(5)
-						.background(Color.gray.opacity(0.2))
+						.padding(.all, 5)
+						.background(Color.blue.opacity(0.2))
 						.cornerRadius(5)
 				}
 			}
-			Section(header: Text("Friends")){
-				ForEach(user.friends) { friend in
+			Section(header: Text("Friends")) {
+				FlowLayout(items: user.friends) { friend in
 					Text(friend.name)
+						.padding(.all, 5)
+						.background(Color.green.opacity(0.2))
+						.cornerRadius(5)
 				}
 			}
 		}
@@ -46,6 +51,10 @@ struct UserDetailView: View {
 #Preview {
 	let friend1 = Friend(id: "01", name: "Friend1")
 	let friend2 = Friend(id: "02", name: "Friend2")
-	let user = User(id: "01", isActive: true, name: "User1", age: 99, company: "ACME", email: "nick@email.com", address: "00 Dumb's Road" , about: "What about", registered: "0001-01-01T01:01:01-01:01", tags: ["tag1","tag2"], friends: [friend1, friend2])
+	let friend3 = Friend(id: "01", name: "Friend3")
+	let friend4 = Friend(id: "02", name: "Friend4")
+	let friend5 = Friend(id: "01", name: "Friend5")
+	let friend6 = Friend(id: "02", name: "Friend6")
+	let user = User(id: "Taylor Swift", isActive: true, name: "User1", age: 99, company: "ACME", email: "nick@email.com", address: "00 Dumb's Road" , about: "What about", registered: "1999-01-01T03:00:00Z", tags: ["Swift", "Combine", "SwiftUI", "Xcode", "iOS", "macOS", "watchOS", "tvOS", "CoreData", "CloudKit"], friends: [friend1, friend2,friend3, friend4,friend5, friend6])
     return UserDetailView(user: user)
 }

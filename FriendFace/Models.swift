@@ -23,8 +23,8 @@ struct User: Codable, Identifiable {
 	var formattedRegisteredDate: String {
 		let isoFormatter = ISO8601DateFormatter()
 		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .medium
-		dateFormatter.timeStyle = .none
+		dateFormatter.dateStyle = .full
+		dateFormatter.timeStyle = .full
 		
 		if let date = isoFormatter.date(from: registered) {
 			return dateFormatter.string(from: date)
@@ -34,7 +34,7 @@ struct User: Codable, Identifiable {
 	}
 }
 
-struct Friend: Codable, Identifiable {
+struct Friend: Codable, Identifiable, Hashable {
 	let id: String
 	let name: String
 }

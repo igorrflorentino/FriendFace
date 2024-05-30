@@ -7,11 +7,13 @@
 
 import SwiftUI
 import Combine
+import Observation
 
-class UserViewModel: ObservableObject {
-	@Published var users = [User]()
-	@Published var isLoading = false
-	@Published var errorMessage: String?
+@Observable
+class ViewModel {
+	var users = [User]()
+	var isLoading = false
+	var errorMessage: String?
 	var cancellables = Set<AnyCancellable>()
 	
 	func fetchData() {
