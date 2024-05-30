@@ -49,12 +49,12 @@ struct UserDetailView: View {
 }
 
 #Preview {
-	let friend1 = Friend(id: "01", name: "Friend1")
-	let friend2 = Friend(id: "02", name: "Friend2")
-	let friend3 = Friend(id: "01", name: "Friend3")
-	let friend4 = Friend(id: "02", name: "Friend4")
-	let friend5 = Friend(id: "01", name: "Friend5")
-	let friend6 = Friend(id: "02", name: "Friend6")
-	let user = User(id: "Taylor Swift", isActive: true, name: "User1", age: 99, company: "ACME", email: "nick@email.com", address: "00 Dumb's Road" , about: "What about", registered: "1999-01-01T03:00:00Z", tags: ["Swift", "Combine", "SwiftUI", "Xcode", "iOS", "macOS", "watchOS", "tvOS", "CoreData", "CloudKit"], friends: [friend1, friend2,friend3, friend4,friend5, friend6])
+	let friend1 = Friend(id: UUID(), name: "Friend1")
+	let friend2 = Friend(id: UUID(), name: "Friend2")
+	let friend3 = Friend(id: UUID(), name: "Friend3")
+	let friend4 = Friend(id: UUID(), name: "Friend4")
+	let friend5 = Friend(id: UUID(), name: "Friend5")
+	let friend6 = Friend(id: UUID(), name: "Friend6")
+	let user = User(id: UUID(), isActive: true, name: "User1", age: 99, company: "ACME", email: "nick@email.com", address: "00 Dumb's Road" , about: "What about", registered: .now, tags: ["S", "C", "Sw", "Xcode", "iOS", "macOS", "watchOS", "tvOS", "CoreData", "CloudKit"], friends: [friend1, friend2,friend3, friend4,friend5, friend6])
     return UserDetailView(user: user)
 }
