@@ -8,34 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
-	@StateObject private var viewModel = UserViewModel()
+	@State var viewModel = ViewModel()
 	
 	var body: some View {
 		NavigationStack {
 			Group {
 				if viewModel.isLoading {
 					ProgressView("Loading...")
-						.progressViewStyle(CircularProgressViewStyle())
 				} else if let errorMessage = viewModel.errorMessage {
-					VStack {
-						Text(errorMessage)
-							.foregroundColor(.red)
-							.multilineTextAlignment(.center)
-							.padding()
-						
-						Button("Retry") {
-							viewModel.fetchData()
-						}
-						.padding()
-					}
+					Text("Error: \(errorMessage)")
+						.foregroundColor(.red)
 				} else {
 					List(viewModel.users) { user in
 						NavigationLink(destination: UserDetailView(user: user)) {
-							HStack {
+							VStack(alignment: .leading) {
 								Text(user.name)
 									.font(.headline)
-								Spacer()
 								Text(user.isActive ? "Active" : "Inactive")
+									.font(.subheadline)
 									.foregroundColor(user.isActive ? .green : .red)
 							}
 						}
@@ -44,7 +34,9 @@ struct ContentView: View {
 			}
 			.navigationTitle("FriendFace")
 			.onAppear {
-				viewModel.fetchData()
+				if viewModel.users.isEmpty {
+					viewModel.fetchData()
+				}
 			}
 		}
 	}
