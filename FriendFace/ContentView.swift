@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
 	@State var viewModel = ViewModel()
+	@Environment(\.modelContext) var modelContext
+	@Query(sort: \User.name) var users: [User]
+	
 	
 	var body: some View {
 		NavigationStack {
@@ -19,7 +23,7 @@ struct ContentView: View {
 					Text("Error: \(errorMessage)")
 						.foregroundColor(.red)
 				} else {
-					List(viewModel.users) { user in
+					List(users) { user in
 						NavigationLink(destination: UserDetailView(user: user)) {
 							VStack(alignment: .leading) {
 								Text(user.name)
@@ -34,9 +38,14 @@ struct ContentView: View {
 			}
 			.navigationTitle("FriendFace")
 			.onAppear {
-				if viewModel.users.isEmpty {
-					viewModel.fetchData()
+				if users.isEmpty {
+					do{
+						try viewModel.fetchData(in: modelContext)
+					}catch{
+						print(error.localizedDescription)
+					}
 				}
+				
 			}
 		}
 	}
@@ -44,4 +53,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+		.modelContainer(for: User.self)
 }
